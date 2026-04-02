@@ -1,0 +1,70 @@
+.tools {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+.tools_title_section{
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-size: 3.0rem;
+    font-weight: 300;
+}
+.tool_list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.tool_item{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+.tool_article{
+    display: flex;
+    gap: 1rem;
+    width: min(90%, 56.3rem);
+    max-width: 56.3rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem auto;
+}
+.tool_card1, .tool_card2{
+    flex: 1 1 60%;
+    
+}
+.tool_title, .tool_title2 {
+    color: rgba(27, 10, 88, 0.952);
+    font-size: 1.6rem;
+    margin: 0 0 0.5rem 0;
+}
+.description, .description2 {
+    color: rgba(27, 10, 88, 0.85);
+    font-size: 1.3rem;
+    margin: 0;
+    line-height: 1.5;
+}
+.logo_1,.logo_2{
+    width: 8.5rem;
+    height: auto;
+    flex: 0 0 8.5rem;
+    margin: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .tool_card1, .tool_card2 {
+        text-align: center;
+    }
+    .tool_article{
+        justify-content: center;
+    }
+}

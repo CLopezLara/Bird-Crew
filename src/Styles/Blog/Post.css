@@ -1,0 +1,42 @@
+
+
+.post-container{
+    background-color: rgb(236, 234, 234);
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.post{
+    width: 50%;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+}
+.post-title{
+    font-size:2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    max-width: 100%;
+}
+.post-content{
+    max-width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: normal;
+    min-width: 0;
+    font-size: 1rem;
+}
+
+@media (max-width: 500px) {
+    .post{
+        width: 90%;
+        padding: 1rem;
+    }
+    .post-title{
+        font-size: 1.5rem;
+    }
+}

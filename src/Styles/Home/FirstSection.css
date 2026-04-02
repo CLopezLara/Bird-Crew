@@ -1,0 +1,106 @@
+
+.first_section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+        radial-gradient(circle at 82% 66%, rgba(243, 242, 242, 0.068) 0 10%, transparent 33%),
+        radial-gradient(circle at 18% 16%, rgba(67, 8, 161, 0.466) 0 30%, transparent 45%),
+        linear-gradient(150deg, #1d2f73 0%, #14204f 52%, #0f183d 100%);
+    display: flex;
+    align-self: center;
+    justify-content: space-evenly;
+    border-radius: 1.5rem;
+    max-width: 95%;
+    padding: 3.7rem .2rem;
+    flex-wrap: wrap;
+}
+    
+.text_left_section{
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    margin-left: 2rem;
+}
+.marketing_home_image {
+    height: auto;
+    width: 30%;
+    display: block;
+    border: .3rem solid rgba(4, 42, 126, 0.589);
+    border-radius: 1rem;
+    align-self: center;
+    margin-left: 2rem;
+    min-width: 25rem;
+}
+.Text_HomeOne{
+    color: rgb(255, 255, 255);
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 1000;
+    font-style: normal;
+    font-size: 2.3rem;
+    width: 100%;
+    
+}
+.crezca_highlight{
+    color: rgba(19, 231, 65, 0.795);
+}
+.Text_HomeTwo{
+    color: rgb(255, 255, 255);
+    font-family: "Source Sans 3", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: 1.4rem;
+    font-style: normal;
+    margin-top: 3.1rem;
+    width: 100%;
+    line-height: 2.5rem;
+}
+.contact_button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: rgb(15, 15, 15);
+    cursor: pointer;
+    margin-top: 1.3rem;
+    margin-bottom: 1.3rem;
+    height: 2.8rem;
+    width: 12.8rem;
+    background-color: rgb(214, 214, 216);
+    font-size: 1.1rem;
+    border: 0.1rem solid rgb(17, 17, 20);
+    border-radius: 0.3rem;
+    transition: all 0.4s ease;
+    font-weight: 600;
+}
+
+.contact_button:hover {
+    background-color: rgba(253, 249, 4, 0.719);
+    box-shadow: 0 4px 12px rgba(182, 156, 9, 0.5);
+}
+
+.contact_button:active {
+    box-shadow: 0 2px 6px rgba(182, 156, 9, 0.3);
+}
+
+.contact_button:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+@media (max-width:768px){
+    .text_left_section{
+        width: 100%;
+        margin-left: 0;
+        align-items: center;
+        text-align: center;
+    }
+    .marketing_home_image {
+        width: 100%;
+        max-width: 22rem;
+        margin: 2rem auto 0;
+        min-width: 0;
+        
+    }
+}

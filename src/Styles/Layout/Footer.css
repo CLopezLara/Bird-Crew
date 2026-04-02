@@ -1,0 +1,135 @@
+.site-footer{
+  display: flex;
+  justify-content:space-around;
+  background-color: black;
+  align-items: center;
+  height: 10rem;
+}
+.site-footer > * {
+  flex: 1;
+}
+.subscribe{
+  height: 100%;
+}
+
+.subscribe > a {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.subscribe_logo{
+  max-height: 100%;
+}
+.subscribe_form_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.subscribe_form{
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  text-align: center;
+}
+.subscribe_form > h2{
+  color: rgb(236, 236, 236);
+  font-size: 2.5rem;
+  margin-bottom: 0;
+  margin-top: .5rem;
+  max-width: 100%;
+}
+
+.subscribe_form_input {
+  display: flex;
+  align-items: center;
+  gap: .5rem; 
+}
+.subscribe_form_input > input,
+.subscribe_form_input > button {
+  height: 2.5rem;          
+  box-sizing: border-box;      
+  flex-wrap: wrap;         
+  min-width: 0;
+}
+
+.subscribe_form_input > input {
+  flex: 3;
+  padding: 0 .5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.subscribe_form_input > button {
+  flex: 1;
+  border: none;
+  background-color: rgb(98, 114, 99);
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe_form_input > button:hover {
+  background-color: rgb(19, 199, 28);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(19, 199, 28, 0.4);
+}
+
+.subscribe_form_input > button:active {
+  transform: translateY(0);
+}
+
+.subscribe_form_input > button:focus {
+  outline: 2px solid rgb(19, 199, 28);
+  outline-offset: 2px;
+}
+.privacy{
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap:1rem;
+}
+.privacy_politics{
+  color: white;
+  text-decoration:none;
+  cursor: pointer;
+  
+}
+.privacy > a {
+  text-decoration:none;
+}
+@media(max-width:1115px ){
+  .subscribe_form_input{
+    display: flex;
+    flex-direction: column;
+  }
+  .subscribe_form_input > input,
+  .subscribe_form_input > button {
+    width: 100%;   
+    flex: none;   
+  }
+}
+@media(max-width: 768px){
+  .subscribe_form{
+    width: 100%;
+  }
+  .subscribe_form > h2 {
+    font-size: 1.5rem; 
+  }
+  .subscribe_logo{
+    height: 8rem;
+  }
+  .site-footer{
+    flex-direction: column;
+    height: auto;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+  .subscribe{
+    align-self: center;
+  }
+}

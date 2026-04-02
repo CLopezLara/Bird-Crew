@@ -1,0 +1,23 @@
+.pagination-container{
+    display:flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+.pagination-button{
+    display: inline-block;
+    height: 3rem;
+    width: 3rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: rgb(141, 142, 202);
+    border-radius: 0.3rem;
+    cursor: pointer;
+}
+.active{
+    background-color: rgb(27, 28, 141);
+    color: white;
+}
+.pagination-button:hover {
+    background-color: rgb(87, 165, 230);
+}

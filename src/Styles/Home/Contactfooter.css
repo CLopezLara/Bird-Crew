@@ -1,0 +1,66 @@
+.contact_footer{
+    padding-top: 2.5rem;
+    background-color: rgba(10, 35, 175, 0.815);
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    border: .2rem solid rgb(22, 13, 73);
+    padding: 1rem;
+}
+.contact_info{
+    font-size: 2.2rem;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.4;
+    color: rgb(255, 255, 255);
+    max-width: 100%;
+}
+.button_contact_footer{
+    height: 2.8rem;
+    width: 16.8rem;
+    background-color: #eb811e;
+    color: rgb(43, 41, 41);
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: 0.1rem solid rgb(0, 0, 0);
+    border-radius: 0.3rem;
+    margin-bottom: 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 100%
+}
+
+.button_contact_footer:hover {
+    background-color: rgb(139, 228, 104);
+    transform: translateY(-2px);
+}
+
+.button_contact_footer:active {
+    transform: translateY(0);
+}
+
+.button_contact_footer:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+.free{
+    color: rgb(25, 189, 25);
+}
+@media (max-width:768px){
+    .contact_footer{
+        width: 95%;
+        box-sizing: border-box;
+    }
+    .contact_info{
+        font-size: 1.6rem;
+    }
+    .button_contact_footer{
+        width: 60%;
+     
+    }
+
+}

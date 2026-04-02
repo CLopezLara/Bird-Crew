@@ -1,0 +1,15 @@
+
+.privacypolitics {
+    color: rgb(255, 255, 255);
+    background-color: black;
+    padding: 5.0rem;
+    border: 0.1rem solid blue;
+}
+.privacypolitics p {
+    line-height: 1.8;
+    text-align: justify;
+}
+.privacypolitics li {
+    line-height: 2;
+    text-align: justify;
+}
