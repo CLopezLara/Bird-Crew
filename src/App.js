@@ -12,8 +12,9 @@ import CallbackAuth from "./Components/Utils/CallbackAuth";
 import ScrollToTop from "./Components/Utils/ScrollToTop";
 import CreatePost from "./Components/Blog/CreatePost";
 import Post from "./Components/Blog/Post";
-
+import ProtectedRoute from "./Components/Utils/ProtectedRoute";
 axios.defaults.withCredentials = true;
+
 function App() {
   return (
     <div className="App">
@@ -24,11 +25,32 @@ function App() {
           <Route index element={<Home />} />
           <Route path="politicas-de-privacidad" element={<Privacypolitics />} />
           <Route path="Contacto" element={<Contact />} />
-          <Route path="Blog" element={<Blog />} />
+          <Route
+            path="Blog"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "user"]}>
+                <Blog />
+              </ProtectedRoute>
+            }
+          />
           <Route path="Login" element={<Login />} />
           <Route path="auth/callback" element={<CallbackAuth />} />
-          <Route path="crear-publicacion" element={<CreatePost />} />
-          <Route path="post/:id" element={<Post />} />
+          <Route
+            path="crear-publicacion"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <CreatePost />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="post/:id"
+            element={
+              <ProtectedRoute allowedRoles={["admin", "user"]}>
+                <Post />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
       <Footer />

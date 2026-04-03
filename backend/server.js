@@ -5,7 +5,6 @@ import helmet from "helmet";
 import authLimiter from "./Middleware/Authlimiter.js";
 import { config } from "./Config/Config.js";
 import router from "./Routes/Auth.js";
-import adminRoutes from "./Routes/AdminRoutes.js";
 import ContactRoutes from "./Routes/ContactRoutes.js";
 import contactLimiter from "./Middleware/ContactLimiter.js";
 import postRoutes from "./Routes/PostRoutes.js";
@@ -45,7 +44,6 @@ app.use("/auth", authLimiter);
 app.use("/api/contact", contactLimiter);
 
 app.use(router);
-app.use(adminRoutes);
 app.use(ContactRoutes);
 app.use(postRoutes);
 app.listen(port, () => console.log(`Backend corriendo en puerto: ${port}`));

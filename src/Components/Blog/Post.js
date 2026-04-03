@@ -11,6 +11,7 @@ function Post() {
   useEffect(() => {
     fetch(`${serverURL}/api/posts/${id}`, {
       method: "GET",
+      credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
