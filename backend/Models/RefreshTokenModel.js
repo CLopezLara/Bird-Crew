@@ -30,7 +30,7 @@ export const findRefreshToken = async (token) => {
   const hashedToken = hashToken(token);
 
   const text = `
-    SELECT rt.*, u.email, u.name
+    SELECT rt.*, u.email, u.name, u.role
     FROM refresh_tokens rt
     JOIN users u ON rt.user_id = u.id
     WHERE rt.token = $1 AND rt.expires_at > NOW()
