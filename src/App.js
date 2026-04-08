@@ -13,6 +13,7 @@ import ScrollToTop from "./Components/Utils/ScrollToTop";
 import CreatePost from "./Components/Blog/CreatePost";
 import Post from "./Components/Blog/Post";
 import ProtectedRoute from "./Components/Utils/ProtectedRoute";
+import EditPost from "./Components/Blog/EditPost";
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -48,6 +49,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["admin", "user"]}>
                 <Post />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="edit-post/:id"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <EditPost />
               </ProtectedRoute>
             }
           />

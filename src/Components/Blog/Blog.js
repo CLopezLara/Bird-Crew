@@ -13,6 +13,11 @@ function Blog() {
   const postsPerPage = 3;
   const firstPost = (currentPage - 1) * postsPerPage;
   const lastPost = firstPost + postsPerPage;
+
+  const handleDelete = (id) => {
+    setPosts((OldPosts) => OldPosts.filter((post) => post.id !== id));
+  };
+
   useEffect(() => {
     fetch(`${serverURL}/api/posts`, {
       method: "GET",
@@ -43,7 +48,7 @@ function Blog() {
 
       <div className="posts-container">
         {posts.slice(firstPost, lastPost).map((post) => (
-          <Posts key={post.id} posts={post} />
+          <Posts key={post.id} posts={post} onDelete={handleDelete} />
         ))}
       </div>
       <BlogPagination

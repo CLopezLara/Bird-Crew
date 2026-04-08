@@ -8,6 +8,8 @@ function Post() {
   function cleanHtml(html) {
     return html?.replace(/\u00A0/g, " ");
   }
+
+  
   useEffect(() => {
     fetch(`${serverURL}/api/posts/${id}`, {
       method: "GET",

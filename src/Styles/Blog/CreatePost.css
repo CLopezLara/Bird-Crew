@@ -1,4 +1,4 @@
-.create-post-page {
+.create-post-page, .edit-post-page {
     background-color: rgb(236, 234, 234);
     flex-grow: 1;
     display: flex;
