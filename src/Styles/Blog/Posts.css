@@ -19,11 +19,16 @@
     gap: 4rem;
     border-bottom: 1px solid rgb(255, 255, 255);
 }
-.post-image {
+.post-image-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
+}
+.post-image {
+    width: 80%;
+    height:auto;
 }
 
 .post-image img {

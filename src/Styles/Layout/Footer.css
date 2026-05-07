@@ -46,22 +46,11 @@
   align-items: center;
   gap: .5rem; 
 }
-.subscribe_form_input > input,
-.subscribe_form_input > button {
+
+.subscribe-button {
   height: 2.5rem;          
-  box-sizing: border-box;      
-  flex-wrap: wrap;         
+  box-sizing: border-box;            
   min-width: 0;
-}
-
-.subscribe_form_input > input {
-  flex: 3;
-  padding: 0 .5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.subscribe_form_input > button {
   flex: 1;
   border: none;
   background-color: rgb(98, 114, 99);
@@ -72,18 +61,48 @@
   transition: all 0.3s ease;
 }
 
-.subscribe_form_input > button:hover {
+
+.unsubscribe-button {
+  height: 2.5rem;          
+  box-sizing: border-box;            
+  min-width: 0;
+  flex: 1;
+  border: none;
+  background-color: rgb(98, 114, 99);
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-button:hover {
   background-color: rgb(19, 199, 28);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(19, 199, 28, 0.4);
 }
 
-.subscribe_form_input > button:active {
+.subscribe-button:active,.unsubscribe-button:active  {
   transform: translateY(0);
 }
 
-.subscribe_form_input > button:focus {
+.subscribe-button:focus {
   outline: 2px solid rgb(19, 199, 28);
+  outline-offset: 2px;
+}
+
+.unsubscribe-button:hover {
+  background-color: rgb(199, 19, 19);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(204, 13, 13, 0.4);
+}
+
+.unsubscribe-button:active {
+  transform: translateY(0);
+}
+
+.unsubscribe-button:focus {
+  outline: 2px solid rgb(199, 19, 19);
   outline-offset: 2px;
 }
 .privacy{
@@ -107,8 +126,8 @@
     display: flex;
     flex-direction: column;
   }
-  .subscribe_form_input > input,
-  .subscribe_form_input > button {
+  
+  .subscribe-button , .unsubscribe-button {
     width: 100%;   
     flex: none;   
   }

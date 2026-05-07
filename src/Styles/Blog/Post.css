@@ -24,7 +24,7 @@
 }
 .post-content{
     max-width: 100%;
-    white-space: pre-wrap;
+    white-space: normal;
     overflow-wrap: break-word;
     word-break: normal;
     min-width: 0;

@@ -1,50 +1,51 @@
 .login {
-    height: 100vh;
+    width: 100%;
     background-color: rgb(236, 234, 234);  
+    display: flex;
+    justify-content: center;
 }
 .loginContainer{
-    color: white;
+    color: rgb(0, 0, 0);
     width: 20rem;
-    height: 35rem;
-    background-color: rgb(0, 0, 0);
-    position: absolute;
-    top: 10rem;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    height: 33rem;
+    background-color: rgb(247, 247, 247);
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-items: center;
     justify-content: center;
     border-radius: 0.6rem;
-    border: 0.1rem solid rgb(220, 220, 236);
+    border: 0.1rem solid rgb(35, 35, 128);
     box-shadow: 0.1rem 0.1rem 1.9rem rgb(26, 9, 182);
-    padding: 1rem;
+    padding: 1.5rem;
+    margin: 3rem 1rem;
 }
 .login-header{
-    font-size: 2rem;
-    font-weight: 400;
+    font-size: 2.5rem;
+    font-weight: 250;
 }
 .login_info {
-    text-align: center;
+    text-align: justify;
     padding: .5rem;
-    line-height: 3;
+    line-height: 2.5rem;
     font-size: 1.1rem;
 }
 .logo_login{
     height: 8rem;
     width: 8rem;
 }
-
 .login-button {
   border-radius: 0.5rem;
   padding: 1rem;
-  background: linear-gradient(170deg, rgb(26, 9, 182), #2e849b) !important;
+  background: linear-gradient(170deg, rgb(26, 9, 182), #2e849b) ;
   width: 12rem;
   border: none;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: all .4s ease;
+}
+.login-button:hover, .login-button:focus{
+    transform:translateY(-.4rem);
+    background: linear-gradient(170deg, rgb(21, 155, 32), #2e849b);
 }
