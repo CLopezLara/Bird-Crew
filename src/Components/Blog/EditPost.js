@@ -1,29 +1,8 @@
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
 import React, { useEffect, useState } from "react";
 import "../../Styles/Blog/CreatePost.css";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
-
-const SizeStyle = Quill.import("attributors/style/size");
-const Custom_Font_Sizes = [
-  "10px",
-  "11px",
-  "12px",
-  "14px",
-  "16px",
-  "18px",
-  "20px",
-  "24px",
-  "28px",
-  "32px",
-  "34px",
-  "36px",
-];
-
-SizeStyle.whitelist = Custom_Font_Sizes;
-Quill.register(SizeStyle, true);
 import { useNavigate, useParams } from "react-router";
+import { useQuill } from "../Hooks/useQuill";
 import {
   deleteImage,
   getDeletePresignedUrl,
@@ -35,13 +14,18 @@ import {
 
 function EditPost() {
   const { id } = useParams();
-  const editor = useRef(null);
-  const quill = useRef(null);
   const [oldPost, setOldPost] = useState({});
   const [content, setContent] = useState("");
   const [delta, setDelta] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState([]);
+  const { editor, quill } = useQuill({
+    onChange: ({ html, delta }) => {
+      setContent(html);
+      setDelta(delta);
+    },
+  });
+
   const navigate = useNavigate();
   const {
     register,
@@ -73,40 +57,18 @@ function EditPost() {
         console.warn(error.errors);
       }
     }
-  };
 
-  useEffect(() => {
-    const toolbarOptions = [
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block"],
-      ["link", "formula"],
-
-      [{ header: 1 }, { header: 2 }],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ direction: "rtl" }],
-
-      [{ size: Custom_Font_Sizes }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }],
-      [{ font: [] }],
-      [{ align: [] }],
     const editedPost = {
       ...data,
       content,
       delta: JSON.stringify(delta),
     };
 
-      ["clean"],
-    ];
     if (editedPost.delta !== oldPost.delta) {
       update.content = editedPost.content;
       update.delta = editedPost.delta;
     }
 
-    if (!editor.current || quill.current) {
     for (const key in editedPost) {
       if (key === "delta" || key === "content" || key === "image") continue;
       if (editedPost[key] !== oldPost[key] && editedPost[key]) {
@@ -117,19 +79,6 @@ function EditPost() {
       setError(["No se han detectado cambios"]);
       return;
     }
-
-    quill.current = new Quill(editor.current, {
-      theme: "snow",
-      modules: {
-        toolbar: toolbarOptions,
-      },
-      placeholder: "Escribe tu publicación aquí",
-    });
-    quill.current.on("text-change", () => {
-      setContent(quill.current.getSemanticHTML());
-      setDelta(quill.current.getContents());
-    });
-  }, []);
     try {
       const res = await updatePost(id, update);
       setMessage(res.message);

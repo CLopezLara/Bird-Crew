@@ -1,40 +1,24 @@
-import Quill from "quill";
 import React, { useState } from "react";
 import "quill/dist/quill.snow.css";
 import "../../Styles/Blog/CreatePost.css";
 import { useForm } from "react-hook-form";
-
-const SizeStyle = Quill.import("attributors/style/size");
-const Custom_Font_Sizes = [
-  "10px",
-  "11px",
-  "12px",
-  "14px",
-  "16px",
-  "18px",
-  "20px",
-  "24px",
-  "28px",
-  "32px",
-  "34px",
-  "36px",
-];
-
-SizeStyle.whitelist = Custom_Font_Sizes;
-Quill.register(SizeStyle, true);
-
 import {
   getPutPresignedUrl,
   savePost,
   uploadImage,
 } from "../Services/postServices";
+import { useQuill } from "../Hooks/useQuill";
 function CreatePost() {
-  const editor = useRef(null);
-  const quill = useRef(null);
   const [content, setContent] = useState("");
-  const [delta, setDelta] = useState("");
+  const [delta, setDelta] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState([]);
+  const { editor, quill } = useQuill({
+    onChange: ({ html, delta }) => {
+      setContent(html);
+      setDelta(delta);
+    },
+  });
 
   const {
     register,
@@ -67,46 +51,6 @@ function CreatePost() {
       setError(error.errors);
     }
   };
-
-  useEffect(() => {
-    const toolbarOptions = [
-      ["bold", "italic", "underline", "strike"],
-      ["blockquote", "code-block"],
-      ["link", "formula"],
-
-      [{ header: 1 }, { header: 2 }],
-      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      [{ script: "sub" }, { script: "super" }],
-      [{ indent: "-1" }, { indent: "+1" }],
-      [{ direction: "rtl" }],
-
-      [{ size: Custom_Font_Sizes }],
-      [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-      [{ color: [] }, { background: [] }],
-      [{ font: [] }],
-      [{ align: [] }],
-
-      ["clean"],
-    ];
-
-    if (!editor.current || quill.current) {
-      return;
-    }
-
-    quill.current = new Quill(editor.current, {
-      theme: "snow",
-      modules: {
-        toolbar: toolbarOptions,
-      },
-      placeholder: "Escribe tu publicación aquí",
-    });
-
-    quill.current.on("text-change", () => {
-      setContent(quill.current.getSemanticHTML());
-      setDelta(quill.current.getContents());
-    });
-  }, []);
 
   return (
     <main className="create-post-page">
