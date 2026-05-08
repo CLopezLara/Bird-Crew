@@ -39,17 +39,18 @@ export const authToken = async (req, res) => {
   if (!code)
     return res
       .status(400)
-      .json({ message: "Authorization code must be provided" });
+      .json({ message: "Se debe proporcionar un codigo de autorizacion " });
 
   if (!state) {
-    return res.status(400).json({ message: "State parameter missing" });
+    return res
+      .status(400)
+      .json({ message: "Parametro de estado no encontrado" });
   }
 
   try {
     jwt.verify(state, config.tokenSecret);
   } catch (err) {
-    console.error("Invalid state token:", err.message);
-    return res.status(400).json({ message: "Invalid or expired state" });
+    return res.status(400).json({ message: "Estado invalido o expirado" });
   }
 
   try {
@@ -61,7 +62,8 @@ export const authToken = async (req, res) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
-    if (!id_token) return res.status(400).json({ message: "Auth error" });
+    if (!id_token)
+      return res.status(400).json({ message: "ID token no encontrado" });
 
     const ticket = await client.verifyIdToken({
       idToken: id_token,
@@ -107,12 +109,7 @@ export const authToken = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Auth token error: ", err);
-    const message =
-      process.env.NODE_ENV === "production"
-        ? "Authentication failed"
-        : err.message || "Server error";
-    res.status(500).json({ message });
+    res.status(500).json({ message: "Fallo de autenticacion" });
   }
 };
 
@@ -135,7 +132,7 @@ export const loggedIn = async (req, res) => {
           },
         });
       } catch (err) {
-        console.log("Access token invalid or expired:", err.message);
+        console.warn("Token de acceso invalido o expirado");
       }
     }
 
@@ -189,7 +186,6 @@ export const loggedIn = async (req, res) => {
 
     res.json({ loggedIn: false });
   } catch (err) {
-    console.error("loggedIn error:", err);
     res.json({ loggedIn: false });
   }
 };
@@ -197,18 +193,15 @@ export const loggedIn = async (req, res) => {
 export const refreshAccessToken = async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
-
     const csrfToken = generateCSRFToken();
     if (!refreshToken) {
-      return res.status(401).json({ message: "Refresh token not provided" });
+      return res.status(401).json({ message: "Refresh token no encontrado" });
     }
 
     const tokenData = await findRefreshToken(refreshToken);
 
     if (!tokenData) {
-      return res
-        .status(403)
-        .json({ message: "Invalid or expired refresh token" });
+      return res.status(404).json({ message: "Refresh token no encontrado" });
     }
 
     const newAccessToken = jwt.sign(
@@ -241,7 +234,6 @@ export const refreshAccessToken = async (req, res) => {
       newRefreshToken,
       getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
     );
-
     res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
     res.json({
       user: {
@@ -252,8 +244,7 @@ export const refreshAccessToken = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Refresh token error:", err);
-    res.status(500).json({ message: "Failed to refresh token" });
+    res.status(500).json({ message: "Error al obtener nuevo token" });
   }
 };
 
@@ -278,9 +269,14 @@ export const logout = async (req, res) => {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         path: "/",
       })
-      .json({ message: "Logged out" });
+      .clearCookie("csrfToken", {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        path: "/",
+      })
+      .json({ message: "Sesion cerrada" });
   } catch (err) {
-    console.error("Logout error:", err);
-    res.status(500).json({ message: "Logout failed" });
+    res.status(500).json({ message: "Error al cerrar sesion" });
   }
 };
