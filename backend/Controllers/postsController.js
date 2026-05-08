@@ -50,13 +50,13 @@ export const ReadPostById = async (req, res) => {
 };
 export const EditPost = async (req, res) => {
   try {
-    const { title, content, author, delta } = req.body;
+    const update = req.body;
     const { id } = req.params;
 
-    await updatePost(id, title, content, author, delta);
-    res.status(200).json({ message: "Post updated successfully" });
+    await updatePost(id, update);
+    res.status(200).json({ message: "Post actualizado correctamente" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update post" });
+    res.status(500).json({ errors: ["error al editar el post"] });
   }
 };
 

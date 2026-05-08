@@ -27,9 +27,14 @@ export const getPostById = async (id) => {
   return result.rows[0];
 };
 
-export const updatePost = async (id, title, content, author, delta) => {
-  const text = `update posts set title = $1, content = $2, author = $3, delta = $4 where id = $5 returning *`;
-  const values = [title, content, author, delta, id];
+export const updatePost = async (id, update) => {
+  const key = Object.keys(update);
+  const value = Object.values(update);
+
+  const changes = key.map((key, index) => `${key} = $${index + 1}`).join(", ");
+
+  const text = `update posts set ${changes} where id = $${key.length + 1} returning *`;
+  const values = [...value, id];
   await query(text, values);
 };
 

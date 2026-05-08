@@ -24,7 +24,7 @@ router.post(
   cleanContent,
   CreateNewPost,
 );
-router.put(
+router.patch(
   "/api/posts/:id",
   requireAdmin,
   checkSchema(PostValidationSchema),
