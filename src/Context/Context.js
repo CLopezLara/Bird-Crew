@@ -1,21 +1,17 @@
 import { useEffect, useState, createContext, useCallback } from "react";
-import axios from "axios";
+import { checkLogin } from "../Components/Services/authServices.js";
 
 export const AuthContext = createContext();
-
-const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export const AuthContextProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(null);
   const [user, setUser] = useState(null);
-
   const checkLoginState = useCallback(async () => {
     try {
-      const {
-        data: { loggedIn: logged_in, user },
-      } = await axios.get(`${serverUrl}/auth/logged_in`);
+      const res = await checkLogin();
+      const { loggedIn: logged_in, user } = res;
       setLoggedIn(logged_in);
-      user && setUser(user);
+      setUser(user);
     } catch (err) {
       console.error(err);
     }

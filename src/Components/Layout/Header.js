@@ -3,9 +3,8 @@ import logo from "../../Images/bird_crew_logo_black.png";
 import "../../Styles/Layout/Header.css";
 import { Link } from "react-router";
 import { AuthContext } from "../../Context/Context";
-import axios from "axios";
 
-const serverUrl = process.env.REACT_APP_SERVER_URL;
+import { logout } from "../Services/authServices";
 
 function Header() {
   const { loggedIn, checkLoginState } = useContext(AuthContext);
@@ -21,13 +20,12 @@ function Header() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${serverUrl}/auth/logout`);
-
+      await logout();
       checkLoginState();
       closeMenu();
       alert("Has cerrado sesión correctamente");
     } catch (err) {
-      console.error(err);
+      console.error(`Ha ocurrido un error cerrando la sesion`);
     }
   };
 

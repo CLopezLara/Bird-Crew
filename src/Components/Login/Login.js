@@ -1,19 +1,14 @@
-import React from "react";
 import "../../Styles/Login/login.css";
-import logo from "../../Images/bird_crew_logo_black.png";
-import axios from "axios";
+import logo from "../../Images/bird_crew_logo_white.png";
+import { login } from "../Services/authServices";
 
-const serverUrl = process.env.REACT_APP_SERVER_URL;
 function Login() {
   const handleLogin = async () => {
     try {
-      const {
-        data: { url },
-      } = await axios.get(`${serverUrl}/auth/url`);
-      window.location.assign(url);
+      const res = await login();
+      window.location.assign(res.url);
     } catch (err) {
-      console.error(err);
-      alert("Error al iniciar sesión. Por favor, inténtalo de nuevo.");
+      alert(err.message);
     }
   };
 

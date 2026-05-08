@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import Posts from "./Posts";
 import BlogPagination from "../Utils/BlogPagination";
 import { AuthContext } from "../../Context/Context";
+import { getAllPosts } from "../Services/postServices";
 function Blog() {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
@@ -19,22 +20,11 @@ function Blog() {
   };
 
   useEffect(() => {
-    fetch(`${serverURL}/api/posts`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setPosts(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
+    getAllPosts()
+      .then(setPosts)
+      .catch((err) => alert(err.message));
   }, [serverURL]);
+
   return (
     <div className="blog">
       <div className="header-container">

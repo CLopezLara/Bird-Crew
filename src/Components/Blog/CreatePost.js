@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
 import Quill from "quill";
+import React, { useState } from "react";
 import "quill/dist/quill.snow.css";
 import "../../Styles/Blog/CreatePost.css";
 import { useForm } from "react-hook-form";
@@ -23,6 +23,11 @@ const Custom_Font_Sizes = [
 SizeStyle.whitelist = Custom_Font_Sizes;
 Quill.register(SizeStyle, true);
 
+import {
+  getPutPresignedUrl,
+  savePost,
+  uploadImage,
+} from "../Services/postServices";
 function CreatePost() {
   const editor = useRef(null);
   const quill = useRef(null);
@@ -30,7 +35,6 @@ function CreatePost() {
   const [delta, setDelta] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState([]);
-  const serverURL = process.env.REACT_APP_SERVER_URL;
 
   const {
     register,
@@ -40,31 +44,27 @@ function CreatePost() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const formData = { ...data, content, delta: JSON.stringify(delta) };
-
     try {
-      const res = await fetch(`${serverURL}/api/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
-        const { message } = await res.json();
-        setMessage(message);
-        reset();
-        quill.current.setContents([]);
-        setError([]);
-        setTimeout(() => {
-          setMessage("");
-        }, 8000);
-      } else {
-        const { errors } = await res.json();
-        setError(errors);
-      }
+      const res = await getPutPresignedUrl(data.image[0]);
+      await uploadImage(res.presignedUrl, data.image[0]);
+      const formData = {
+        ...data,
+        content,
+        delta: JSON.stringify(delta),
+        image_url: res.publicUrl,
+        image_key: res.key,
+      };
+
+      const postRes = await savePost(formData);
+      setMessage(postRes.message);
+      reset();
+      quill.current.setContents([]);
+      setError([]);
+      setTimeout(() => {
+        setMessage("");
+      }, 8000);
     } catch (error) {
-      setError(["Error al crear la publicación. Inténtalo de nuevo."]);
+      setError(error.errors);
     }
   };
 
@@ -109,8 +109,10 @@ function CreatePost() {
   }, []);
 
   return (
-    <div className="create-post-page">
-      <h1 className="title">Crear publicación</h1>
+    <main className="create-post-page">
+      <header>
+        <h1 className="title">Crear publicación</h1>
+      </header>
       {message && <span className="success-message">{message}</span>}
       {error &&
         error.map((e, i) => (
@@ -119,58 +121,66 @@ function CreatePost() {
           </span>
         ))}
       <form className="post-form" onSubmit={handleSubmit(onSubmit)}>
-        <label className="title_label" htmlFor="title">
-          Título:
-        </label>
-        <div>
-          <input
-            id="title"
-            type="text"
-            placeholder="Escribe el título"
-            {...register("title", { required: true })}
-          />
-          {errors.title && (
-            <span className="error">El título es requerido</span>
-          )}
-        </div>
-        <label className="author_label" htmlFor="author">
-          Autor:
-        </label>
-        <div>
-          <input
-            id="author"
-            type="text"
-            placeholder="Escribe el autor"
-            {...register("author", { required: true })}
-          />
-          {errors.author && (
-            <span className="error">El autor es requerido</span>
-          )}
-        </div>
+        <section className="form-section">
+          <label className="title_label" htmlFor="title">
+            Título:
+          </label>
+          <div>
+            <input
+              id="title"
+              type="text"
+              placeholder="Escribe el título"
+              {...register("title", { required: true })}
+            />
+            {errors.title && (
+              <span className="error">El título es requerido</span>
+            )}
+          </div>
+        </section>
 
-        {/*   <label className="image_label" htmlFor="image">
-          Imagen:
-        </label>
-        <div>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            {...register("image", { required: true })}
-          />
-          {errors.image && (
-            <span className="error">La imagen es requerida</span>
-          )}
-        </div> */}
+        <section className="form-section">
+          <label className="author_label" htmlFor="author">
+            Autor:
+          </label>
+          <div>
+            <input
+              id="author"
+              type="text"
+              placeholder="Escribe el autor"
+              {...register("author", { required: true })}
+            />
+            {errors.author && (
+              <span className="error">El autor es requerido</span>
+            )}
+          </div>
+        </section>
 
-        <div>
+        <section className="form-section">
+          <label className="image_label" htmlFor="image">
+            Imagen:
+          </label>
+          <div>
+            <input
+              id="image"
+              type="file"
+              accept="image/*"
+              {...register("image", { required: true })}
+            />
+            {errors.image && (
+              <span className="error">La imagen es requerida</span>
+            )}
+          </div>
+        </section>
+
+        <section className="form-section">
+          <label className="content_label">Contenido:</label>
           <div ref={editor} className="editor" />
-        </div>
+        </section>
         <button type="submit" className="submit-button" disabled={isSubmitting}>
           Publicar
         </button>
       </form>
-    </div>
+    </main>
   );
 }
 

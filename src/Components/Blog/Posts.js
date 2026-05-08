@@ -14,37 +14,32 @@ function getSummaryTextFromHtml(html, numWords = 30) {
   );
 }
 
+import {
+  deleteImage,
+  deletePost,
+  getDeletePresignedUrl,
+} from "../Services/postServices.js";
 function Posts({ posts, onDelete }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { title, author, content, id } = posts;
+  const { title, author, content, id, image_url, image_key } = posts;
   const summary = getSummaryTextFromHtml(content, 28);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const handleDeletePost = () => {
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/posts`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to delete post: ${res.status}`);
-        }
+  const DeletePostHandler = async () => {
+    try {
+      setShowConfirm(false);
+      if (image_url && image_key) {
+        const res = await getDeletePresignedUrl(image_key);
+        await deleteImage(res.presignedUrl);
+      }
 
-        return res.json();
-      })
-      .then(() => {
-        setShowConfirm(false);
-        onDelete(id);
-      })
-      .catch((error) => {
-        console.error("Error deleting post:", error);
-        alert("No se pudo eliminar la publicación. Inténtalo de nuevo.");
-      });
+      await deletePost(id);
+
+      onDelete(id);
+    } catch (err) {
+      console.error(err.errors);
+    }
   };
 
   return (
@@ -52,6 +47,7 @@ function Posts({ posts, onDelete }) {
       <div className="posts">
         <div className="post-image">
           <img src={posts.image} alt={title} />
+          <img src={image_url} alt={title} className="post-image" />
         </div>
         <div className="post-body">
           <h2 className="post-title">{title}</h2>
@@ -83,7 +79,7 @@ function Posts({ posts, onDelete }) {
       {showConfirm && (
         <ConfirmWindow
           message="¿Seguro que deseas eliminar esta publicación?"
-          onConfirm={handleDeletePost}
+          onConfirm={DeletePostHandler}
           onCancel={() => setShowConfirm(false)}
         />
       )}

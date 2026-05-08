@@ -1,34 +1,29 @@
-import axios from "axios";
 import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../Context/Context";
+import { getToken } from "../Services/authServices";
 
-const serverUrl = process.env.REACT_APP_SERVER_URL;
 function CallbackAuth() {
   const called = useRef(false);
   const { checkLoginState, loggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      if (loggedIn === false) {
-        try {
-          if (called.current) return;
-          called.current = true;
-          const res = await axios.get(
-            `${serverUrl}/auth/token${window.location.search}`
-          );
-          console.log("response: ", res);
+    if (loggedIn === false) {
+      try {
+        if (called.current) return;
+        called.current = true;
+        getToken().then(() => {
           checkLoginState();
           navigate("/");
-        } catch (err) {
-          console.error(err);
-          navigate("/");
-        }
-      } else if (loggedIn === true) {
+        });
+      } catch (err) {
+        alert(err.message);
         navigate("/");
       }
-    })();
+    } else if (loggedIn === true) {
+      navigate("/");
+    }
   }, [checkLoginState, loggedIn, navigate]);
   return <></>;
 }

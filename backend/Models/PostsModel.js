@@ -1,8 +1,15 @@
 import { query } from "../Db/index.js";
 
-export const savePost = async (title, content, author, delta) => {
-  const text = ` insert into posts (title, content, author, delta) values ($1, $2, $3, $4) returning *`;
-  const values = [title, content, author, delta];
+export const savePost = async (
+  title,
+  content,
+  author,
+  delta,
+  image_url,
+  image_key,
+) => {
+  const text = ` insert into posts (title, content, author, delta, image_url, image_key) values ($1, $2, $3, $4, $5, $6) returning *`;
+  const values = [title, content, author, delta, image_url, image_key];
   const result = await query(text, values);
   return result.rows[0];
 };

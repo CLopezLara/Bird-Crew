@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../../Styles/Contact/Contact.css";
 import { useForm } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
+import { sendData } from "../Services/contactServices";
 function Contact() {
   const {
     register,
@@ -13,7 +14,6 @@ function Contact() {
   const [Message, setMessage] = useState("");
   const [validationErrors, setValidationErrors] = useState([]);
   const [captchaToken, setCaptchaToken] = useState(null);
-  const serverURL = process.env.REACT_APP_SERVER_URL;
 
   const onChange = (value) => {
     setCaptchaToken(value);
@@ -22,34 +22,19 @@ function Contact() {
   const onSubmit = async (data) => {
     if (!captchaToken) {
       setMessage(
-        " Por favor, completa el reCAPTCHA antes de enviar el formulario.",
+        " ⚠️ Por favor, completa el reCAPTCHA antes de enviar el formulario.",
       );
       return;
     }
     const formData = { ...data, recaptchaToken: captchaToken };
     try {
-      const res = await fetch(`${serverURL}/api/contact`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        const { message } = res.json();
-        reset();
-        setMessage(message);
-        setValidationErrors([]);
-      } else {
-        const { message, errors } = res.json();
-        setMessage(message);
-        setValidationErrors(errors || []);
-      }
+      const res = await sendData(formData);
+      reset();
+      setMessage(res.message);
+      setValidationErrors([]);
     } catch (error) {
-      setMessage(
-        " Error al enviar el formulario. Por favor, intenta de nuevo.",
-      );
+      setMessage(error.message);
+      setValidationErrors(error.data?.errors || []);
     }
   };
 

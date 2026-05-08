@@ -3,6 +3,8 @@ import {
   CreateNewPost,
   DeletePost,
   EditPost,
+  GetDeletePresignedUrl,
+  GetPutPresignedUrl,
   ReadPost,
   ReadPostById,
 } from "../Controllers/postsController.js";
@@ -33,4 +35,14 @@ router.put(
 router.get("/api/posts", requireUser, ReadPost);
 router.get("/api/posts/:id", requireUser, ReadPostById);
 router.delete("/api/posts", requireAdmin, DeletePost);
+router.get(
+  "/api/posts/presigned-url/upload",
+  requireAdmin,
+  GetPutPresignedUrl,
+);
+router.get(
+  "/api/posts/presigned-url/delete",
+  requireAdmin,
+  GetDeletePresignedUrl,
+);
 export default router;
