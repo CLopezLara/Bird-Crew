@@ -10,40 +10,51 @@ const hashToken = (token) => {
 };
 
 export const saveRefreshToken = async (userId, token, expiresInDays = 7) => {
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + expiresInDays);
+  try {
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + expiresInDays);
 
-  const hashedToken = hashToken(token);
+    const hashedToken = hashToken(token);
 
-  const text = `
+    const text = `
     INSERT INTO refresh_tokens (user_id, token, expires_at)
     VALUES ($1, $2, $3)
     RETURNING *
   `;
-  const values = [userId, hashedToken, expiresAt];
+    const values = [userId, hashedToken, expiresAt];
 
-  const result = await query(text, values);
-  return result.rows[0];
+    const result = await query(text, values);
+    return result.rows[0];
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const findRefreshToken = async (token) => {
-  const hashedToken = hashToken(token);
+  try {
+    const hashedToken = hashToken(token);
 
-  const text = `
-    SELECT rt.*, u.email, u.name, u.role
+    const text = `
     SELECT rt.*, u.email, u.name, u.role, u.subscribed
     FROM refresh_tokens rt
     JOIN users u ON rt.user_id = u.id
     WHERE rt.token = $1 AND rt.expires_at > NOW()
   `;
-  const result = await query(text, [hashedToken]);
-  return result.rows[0];
+    const result = await query(text, [hashedToken]);
+    return result.rows[0];
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const deleteRefreshToken = async (token) => {
-  const hashedToken = hashToken(token);
-  const text = "DELETE FROM refresh_tokens WHERE token = $1";
-  await query(text, [hashedToken]);
+  try {
+    const hashedToken = hashToken(token);
+    const text = "DELETE FROM refresh_tokens WHERE token = $1";
+    await query(text, [hashedToken]);
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const deleteAllUserRefreshTokens = async (userId) => {
