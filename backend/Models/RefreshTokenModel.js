@@ -31,6 +31,7 @@ export const findRefreshToken = async (token) => {
 
   const text = `
     SELECT rt.*, u.email, u.name, u.role
+    SELECT rt.*, u.email, u.name, u.role, u.subscribed
     FROM refresh_tokens rt
     JOIN users u ON rt.user_id = u.id
     WHERE rt.token = $1 AND rt.expires_at > NOW()

@@ -16,7 +16,7 @@ import {
   findRefreshToken,
   deleteRefreshToken,
 } from "../Models/RefreshTokenModel.js";
-import { upsertUser } from "../Models/UsersModel.js";
+import { getUserById, upsertUser } from "../Models/UsersModel.js";
 
 const client = new OAuth2Client(config.clientId);
 
@@ -106,6 +106,7 @@ export const authToken = async (req, res) => {
         name: dbUser.name,
         email: dbUser.email,
         role: dbUser.role,
+        subscribed: dbUser.subscribed,
       },
     });
   } catch (err) {
@@ -123,13 +124,10 @@ export const loggedIn = async (req, res) => {
     if (accessToken) {
       try {
         const decoded = jwt.verify(accessToken, config.tokenSecret);
+        const user = await getUserById(decoded.userId);
         return res.json({
           loggedIn: true,
-          user: {
-            id: decoded.userId,
-            email: decoded.email,
-            role: decoded.role,
-          },
+          user,
         });
       } catch (err) {
         console.warn("Token de acceso invalido o expirado");
@@ -179,6 +177,7 @@ export const loggedIn = async (req, res) => {
             email: tokenData.email,
             name: tokenData.name,
             role: tokenData.role,
+            subscribed: tokenData.subscribed,
           },
         });
       }
@@ -201,7 +200,7 @@ export const refreshAccessToken = async (req, res) => {
     const tokenData = await findRefreshToken(refreshToken);
 
     if (!tokenData) {
-      return res.status(404).json({ message: "Refresh token no encontrado" });
+      return res.status(401).json({ message: "Refresh token no encontrado" });
     }
 
     const newAccessToken = jwt.sign(
@@ -241,6 +240,7 @@ export const refreshAccessToken = async (req, res) => {
         email: tokenData.email,
         name: tokenData.name,
         role: tokenData.role,
+        subscribed: tokenData.subscribed,
       },
     });
   } catch (err) {

@@ -16,7 +16,7 @@ export const upsertUser = async (email, name) => {
 
 export const getUserById = async (userId) => {
   const text = `
-    SELECT id, email, name, role
+    SELECT id, email, name, role, subscribed
     FROM users
     WHERE id = $1
   `;
