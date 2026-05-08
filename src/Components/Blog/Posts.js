@@ -3,17 +3,7 @@ import "../../Styles/Blog/Posts.css";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/Context";
 import ConfirmWindow from "../Utils/ConfirmWindow";
-
-function getSummaryTextFromHtml(html, numWords = 30) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const text = doc.body.textContent || "";
-  const words = text.split(/\s+/).filter(Boolean);
-  return (
-    words.slice(0, numWords).join(" ") + (words.length > numWords ? "..." : "")
-  );
-}
-
+import getSummaryTextFromHtml from "./Utils/getSummaryText";
 import {
   deleteImage,
   deletePost,
