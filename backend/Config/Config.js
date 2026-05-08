@@ -17,6 +17,10 @@ export const generateState = () => {
   return crypto.randomBytes(32).toString("hex");
 };
 
+export const generateCSRFToken = () => {
+  return crypto.randomBytes(32).toString("hex");
+};
+
 export const buildAuthParams = (state) =>
   queryString.stringify({
     client_id: config.clientId,
@@ -42,4 +46,11 @@ export const getCookieOptions = (maxAge) => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+});
+
+export const getcsrfCookieOptions = () => ({
+  httpOnly: false,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge: config.accessTokenExpiration,
 });

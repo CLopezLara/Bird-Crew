@@ -17,11 +17,13 @@ import { UpdatePostValidationSchema } from "../Middleware/ValidationSchemas/Upda
 import { ParamsIDValidator } from "../Middleware/ValidationSchemas/ParamsIDValidator.js";
 import { PresignedUrlQuerySchema } from "../Middleware/ValidationSchemas/PresignedUrlQuerySchema.js";
 import { DeletePresignedUrlQuerySchema } from "../Middleware/ValidationSchemas/DeletePresignedUrlSchema.js";
+import { csrfMiddleware } from "../Middleware/Csrf.js";
 
 const router = express.Router();
 
 router.post(
   "/api/posts",
+  csrfMiddleware,
   requireAdmin,
   checkSchema(PostValidationSchema),
   ErrorHandler,
@@ -30,6 +32,7 @@ router.post(
 );
 router.patch(
   "/api/posts/:id",
+  csrfMiddleware,
   requireAdmin,
   checkSchema(UpdatePostValidationSchema),
   checkSchema(ParamsIDValidator),
@@ -47,6 +50,7 @@ router.get(
 );
 router.delete(
   "/api/posts/:id",
+  csrfMiddleware,
   requireAdmin,
   checkSchema(ParamsIDValidator),
   ErrorHandler,

@@ -18,6 +18,13 @@ const processQueue = (error = null) => {
   });
   queue = [];
 };
+instance.interceptors.request.use((config) => {
+  const csrfToken = getCsrfToken();
+  if (csrfToken) {
+    config.headers["X-CSRF-Token"] = csrfToken;
+  }
+  return config;
+});
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {

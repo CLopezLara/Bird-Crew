@@ -4,6 +4,8 @@ import {
   getTokenParams,
   generateState,
   getCookieOptions,
+  generateCSRFToken,
+  getcsrfCookieOptions,
 } from "../Config/Config.js";
 import axios from "axios";
 import jwt from "jsonwebtoken";
@@ -32,6 +34,7 @@ export const authUrl = (req, res) => {
 };
 
 export const authToken = async (req, res) => {
+  const csrfToken = generateCSRFToken();
   const { code, state } = req.query;
   if (!code)
     return res
@@ -93,6 +96,7 @@ export const authToken = async (req, res) => {
       refreshToken,
       getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
     );
+    res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
 
     res.json({
       user: {
@@ -116,6 +120,8 @@ export const loggedIn = async (req, res) => {
   try {
     const accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
+
+    const csrfToken = generateCSRFToken();
 
     if (accessToken) {
       try {
@@ -167,6 +173,7 @@ export const loggedIn = async (req, res) => {
           newRefreshToken,
           getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
         );
+        res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
 
         return res.json({
           loggedIn: true,
@@ -191,6 +198,7 @@ export const refreshAccessToken = async (req, res) => {
   try {
     const { refreshToken } = req.cookies;
 
+    const csrfToken = generateCSRFToken();
     if (!refreshToken) {
       return res.status(401).json({ message: "Refresh token not provided" });
     }
@@ -234,6 +242,7 @@ export const refreshAccessToken = async (req, res) => {
       getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
     );
 
+    res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
     res.json({
       user: {
         id: tokenData.user_id,
