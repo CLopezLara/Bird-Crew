@@ -1,7 +1,11 @@
 import sanitizeHtml from "sanitize-html";
 
 export const cleanContent = (req, res, next) => {
+  if (!req.body.content) {
+    return next();
+  }
   const { content } = req.body;
+
   const sanitizedContent = sanitizeHtml(content, {
     allowedTags: [
       "b",
@@ -50,6 +54,8 @@ export const cleanContent = (req, res, next) => {
 
     allowCommentTag: false,
   });
+
   req.body.content = sanitizedContent;
+
   next();
 };

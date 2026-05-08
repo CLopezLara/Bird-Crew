@@ -7,7 +7,7 @@ export const ErrorHandler = (req, res, next) => {
     const errorArray = Object.values(mappedErrors);
     return res.status(400).json({
       success: false,
-      message: "Errores de validación",
+      message: "❌ Errores de validación",
       errors: errorArray,
     });
   }
