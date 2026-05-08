@@ -14,33 +14,6 @@ export const upsertUser = async (email, name) => {
   return result.rows[0];
 };
 
-export const updateUserRole = async (userId, newRole) => {
-  const validRoles = ["user", "admin"];
-  if (!validRoles.includes(newRole)) {
-    throw new Error("Invalid role");
-  }
-
-  const text = `
-    UPDATE users 
-    SET role = $2 
-    WHERE id = $1 
-    RETURNING *
-  `;
-  const result = await query(text, [userId, newRole]);
-  return result.rows[0];
-};
-
-export const getAllUsers = async (limit = 100, offset = 0) => {
-  const text = `
-    SELECT id, email, name, role
-    FROM users
-    ORDER BY name DESC
-    LIMIT $1 OFFSET $2
-  `;
-  const result = await query(text, [limit, offset]);
-  return result.rows;
-};
-
 export const getUserById = async (userId) => {
   const text = `
     SELECT id, email, name, role
