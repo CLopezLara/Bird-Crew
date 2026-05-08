@@ -26,28 +26,30 @@ function Blog() {
   }, [serverURL]);
 
   return (
-    <div className="blog">
-      <div className="header-container">
+    <main className="blog">
+      <header className="header-container">
         <h1 className="title">Publicaciones</h1>
         {user?.role === "admin" && (
           <Link to="/crear-publicacion" className="create-post-button">
             Crear nueva publicación
           </Link>
         )}
-      </div>
+      </header>
 
-      <div className="posts-container">
+      <section className="posts-container">
         {posts.slice(firstPost, lastPost).map((post) => (
           <Posts key={post.id} posts={post} onDelete={handleDelete} />
         ))}
-      </div>
-      <BlogPagination
-        posts={posts.length}
-        postsPerPage={postsPerPage}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-      />
-    </div>
+      </section>
+      <nav>
+        <BlogPagination
+          posts={posts.length}
+          postsPerPage={postsPerPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
+      </nav>
+    </main>
   );
 }
 

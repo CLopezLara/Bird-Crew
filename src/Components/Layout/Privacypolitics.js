@@ -11,7 +11,7 @@ function Privacypolitics() {
         la ley lo protege. Utilizamos sus datos personales para proporcionar y
         mejorar el Servicio. Al utilizar el Servicio, Usted acepta la
         recopilación y el uso de información de acuerdo con esta Política de
-        privacidad.{" "}
+        privacidad.
       </p>
       <h2 style={{ borderBottom: "1px  solid blue" }}>
         Interpretación y definiciones

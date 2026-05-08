@@ -33,25 +33,27 @@ function Posts({ posts, onDelete }) {
   };
 
   return (
-    <div className="posts-section">
-      <div className="posts">
-        <div className="post-image">
-          <img src={posts.image} alt={title} />
+    <section className="posts-section">
+      <article className="posts">
+        <div className="post-image-container">
           <img src={image_url} alt={title} className="post-image" />
         </div>
         <div className="post-body">
-          <h2 className="post-title">{title}</h2>
-          <div className="post-content">{summary}</div>
-          <div className="post-footer">
+          <header>
+            <h2 className="post-title">{title}</h2>
+          </header>
+
+          <p className="post-content">{summary}</p>
+          <footer className="post-footer">
             <Link to={`/post/${id}`} className="read-more-button">
               Leer más
             </Link>
             <p className="author">Autor: {author}</p>
-          </div>
+          </footer>
         </div>
-      </div>
+      </article>
       {user?.role === "admin" && (
-        <div className="admin-options">
+        <aside className="admin-options">
           <button
             className="edit-post-button"
             onClick={() => navigate(`/edit-post/${id}`)}
@@ -64,7 +66,7 @@ function Posts({ posts, onDelete }) {
           >
             Eliminar
           </button>
-        </div>
+        </aside>
       )}
       {showConfirm && (
         <ConfirmWindow
@@ -73,7 +75,7 @@ function Posts({ posts, onDelete }) {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-    </div>
+    </section>
   );
 }
 

@@ -43,13 +43,7 @@ function Header() {
         </div>
       </div>
 
-      <button
-        className="hamburger_button"
-        type="button"
-        aria-label="Abrir menú de navegación"
-        aria-expanded={menu}
-        onClick={toggleMenu}
-      >
+      <button className="hamburger_button" type="button" onClick={toggleMenu}>
         {menu ? "✕" : "☰"}
       </button>
 

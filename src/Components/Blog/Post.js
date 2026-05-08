@@ -17,22 +17,25 @@ function Post() {
   }, [id]);
 
   return (
-    <div className="post-container">
-      <div className="post">
-        <h1 className="post-title">{post?.title}</h1>
-        <div
+    <main className="post-container">
+      <article className="post">
+        <header>
+          <h1 className="post-title">{post?.title}</h1>
+        </header>
+
+        <section
           className="post-content"
           dangerouslySetInnerHTML={{ __html: cleanHtml(post?.content) }}
         />
         <p className="post-author">Autor: {post?.author}</p>
         {post?.created_at && (
-          <div className="post-date">
+          <time dateTime={post.created_at} className="post-date">
             Fecha de publicación:{" "}
             {new Date(post.created_at).toLocaleDateString()}
-          </div>
+          </time>
         )}
-      </div>
-    </div>
+      </article>
+    </main>
   );
 }
 

@@ -16,7 +16,7 @@ function BlogPagination({ posts, postsPerPage, setCurrentPage, currentPage }) {
   }
 
   return (
-    <div className="pagination-container">
+    <section className="pagination-container">
       {pages.map((page) => (
         <button
           className={`pagination-button ${page === currentPage ? "active" : ""}`}
@@ -29,7 +29,7 @@ function BlogPagination({ posts, postsPerPage, setCurrentPage, currentPage }) {
           {page}
         </button>
       ))}
-    </div>
+    </section>
   );
 }
 
