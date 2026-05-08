@@ -7,17 +7,17 @@ export const requireRole = (allowedRoles) => {
       const accessToken = req.cookies.accessToken;
 
       if (!accessToken) {
-        console.log("cookies:", req.cookies);
-        return res
-          .status(401)
-          .json({ message: "Unauthorized - No token", cookies: req.cookies });
+        return res.status(401).json({
+          message: "Sin autorizacion- No hay token",
+          cookies: req.cookies,
+        });
       }
 
       const decoded = jwt.verify(accessToken, config.tokenSecret);
 
       if (!allowedRoles.includes(decoded.role)) {
         return res.status(403).json({
-          message: "Forbidden - Insufficient permissions",
+          message: "Prohibido- Permisos insuficientes",
           requiredRole: allowedRoles,
           userRole: decoded.role,
         });
@@ -34,10 +34,10 @@ export const requireRole = (allowedRoles) => {
       if (err.name === "TokenExpiredError") {
         return res
           .status(401)
-          .json({ message: "Token expired", expired: true });
+          .json({ message: "Token expirado", expired: true });
       }
 
-      res.status(401).json({ message: "Unauthorized - Invalid token" });
+      res.status(401).json({ message: "Sin autorizacion-Token invalido" });
     }
   };
 };

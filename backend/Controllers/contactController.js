@@ -1,6 +1,5 @@
 import createTransporter from "../Config/emailConfig.js";
 import axios from "axios";
-
 const SendContactEmail = async (req, res) => {
   try {
     const {
@@ -33,14 +32,14 @@ const SendContactEmail = async (req, res) => {
     if (!recaptchaResponse.data.success) {
       return res
         .status(400)
-        .json({ message: " Verificación de reCAPTCHA fallida" });
+        .json({ message: "❌ Verificación de reCAPTCHA fallida" });
     }
     const transporter = createTransporter();
 
     const ownerMailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: "New client BirdCrew Website",
+      subject: "Nuevo cliente de BirdCrew Website",
       html: `
             <h1><strong>Datos de nuevo cliente</strong></h1>
             <p><strong>Nombre:</strong> ${nombre}</p>
