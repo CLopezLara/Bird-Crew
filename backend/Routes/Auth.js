@@ -6,17 +6,21 @@ import {
   logout,
   refreshAccessToken,
 } from "../Controllers/authController.js";
+import {
+  authLimiter,
+  protectedRoutesLimiter,
+} from "../Middleware/RateLimiter.js";
 
 const router = express.Router();
 
-router.get("/auth/url", authUrl);
+router.get("/auth/url", protectedRoutesLimiter, authUrl);
 
-router.get("/auth/token", authToken);
+router.get("/auth/token", authLimiter, authToken);
 
-router.get("/auth/logged_in", loggedIn);
+router.get("/auth/logged_in", protectedRoutesLimiter, loggedIn);
 
-router.post("/auth/refresh", refreshAccessToken);
+router.post("/auth/refresh", protectedRoutesLimiter, refreshAccessToken);
 
-router.post("/auth/logout", logout);
+router.post("/auth/logout", protectedRoutesLimiter, logout);
 
 export default router;
