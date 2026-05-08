@@ -9,8 +9,11 @@ export const config = {
   redirectUrl: process.env.REDIRECT_URL,
   clientUrl: process.env.CLIENT_URL,
   tokenSecret: process.env.TOKEN_SECRET,
-  accessTokenExpiration: 15 * 60 * 1000,
-  refreshTokenExpiration: 7,
+  accessTokenExpiration: "15m",
+  refreshTokenExpiration: "7d",
+  accessTokenCookieMaxAge: 15 * 60 * 1000,
+  refreshTokenCookieMaxAge: 7 * 24 * 60 * 60 * 1000,
+  refreshTokenExpirationDays: 7,
 };
 
 export const generateState = () => {
@@ -52,5 +55,5 @@ export const getcsrfCookieOptions = () => ({
   httpOnly: false,
   secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  maxAge: config.accessTokenExpiration,
+  maxAge: 15 * 60 * 1000,
 });

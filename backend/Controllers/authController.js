@@ -23,7 +23,7 @@ const client = new OAuth2Client(config.clientId);
 export const authUrl = (req, res) => {
   const state = generateState();
   const stateToken = jwt.sign({ state }, config.tokenSecret, {
-    expiresIn: 1000 * 60,
+    expiresIn: 60,
   });
 
   const authParams = buildAuthParams(stateToken);
@@ -85,18 +85,18 @@ export const authToken = async (req, res) => {
     await saveRefreshToken(
       dbUser.id,
       refreshToken,
-      config.refreshTokenExpiration,
+      config.refreshTokenExpirationDays,
     );
 
     res.cookie(
       "accessToken",
       accessToken,
-      getCookieOptions(config.accessTokenExpiration),
+      getCookieOptions(config.accessTokenCookieMaxAge),
     );
     res.cookie(
       "refreshToken",
       refreshToken,
-      getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
+      getCookieOptions(config.refreshTokenCookieMaxAge),
     );
     res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
 
@@ -155,18 +155,18 @@ export const loggedIn = async (req, res) => {
         await saveRefreshToken(
           tokenData.user_id,
           newRefreshToken,
-          config.refreshTokenExpiration,
+          config.refreshTokenExpirationDays,
         );
 
         res.cookie(
           "accessToken",
           newAccessToken,
-          getCookieOptions(config.accessTokenExpiration),
+          getCookieOptions(config.accessTokenCookieMaxAge),
         );
         res.cookie(
           "refreshToken",
           newRefreshToken,
-          getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
+          getCookieOptions(config.refreshTokenCookieMaxAge),
         );
         res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
 
@@ -220,18 +220,18 @@ export const refreshAccessToken = async (req, res) => {
     await saveRefreshToken(
       tokenData.user_id,
       newRefreshToken,
-      config.refreshTokenExpiration,
+      config.refreshTokenExpirationDays,
     );
 
     res.cookie(
       "accessToken",
       newAccessToken,
-      getCookieOptions(config.accessTokenExpiration),
+      getCookieOptions(config.accessTokenCookieMaxAge),
     );
     res.cookie(
       "refreshToken",
       newRefreshToken,
-      getCookieOptions(config.refreshTokenExpiration * 24 * 60 * 60 * 1000),
+      getCookieOptions(config.refreshTokenCookieMaxAge),
     );
     res.cookie("csrfToken", csrfToken, getcsrfCookieOptions());
     res.json({
