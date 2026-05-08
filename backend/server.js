@@ -35,6 +35,8 @@ app.use(
   cors({
     origin: config.clientUrl,
     credentials: true,
+    allowedHeaders: ["Content-Type", "X-CSRF-Token"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
 
