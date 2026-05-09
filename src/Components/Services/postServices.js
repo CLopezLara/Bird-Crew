@@ -1,9 +1,8 @@
 import { instance } from "../Utils/AuthInterceptor";
 
-const serverURL = process.env.REACT_APP_SERVER_URL;
 export const savePost = async (formData) => {
   try {
-    const res = await instance.post(`${serverURL}/api/posts`, formData);
+    const res = await instance.post(`/api/posts`, formData);
     return res.data;
   } catch (error) {
     throw error.response?.data || { errors: ["Error al guardar post"] };

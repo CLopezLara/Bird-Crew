@@ -1,6 +1,5 @@
-const serverURL = process.env.REACT_APP_SERVER_URL;
 export const sendData = async (formData) => {
-  const res = await fetch(`${serverURL}/api/contact`, {
+  const res = await fetch(`/api/contact`, {
     headers: {
       "Content-Type": "application/json",
     },

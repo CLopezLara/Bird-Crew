@@ -9,7 +9,6 @@ function Blog() {
   const { user } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const serverURL = process.env.REACT_APP_SERVER_URL;
 
   const postsPerPage = 3;
   const firstPost = (currentPage - 1) * postsPerPage;
@@ -23,7 +22,7 @@ function Blog() {
     getAllPosts()
       .then(setPosts)
       .catch((err) => alert(err.message));
-  }, [serverURL]);
+  }, []);
 
   return (
     <main className="blog">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCsrfToken } from "./readCsrfToken";
 export const instance = axios.create({
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: "/",
   withCredentials: true,
 });
 

@@ -1,6 +1,5 @@
-const serverUrl = process.env.REACT_APP_SERVER_URL;
 export const logout = async () => {
-  const res = await fetch(`${serverUrl}/auth/logout`, {
+  const res = await fetch(`/auth/logout`, {
     method: "POST",
     credentials: "include",
   });
@@ -10,7 +9,7 @@ export const logout = async () => {
 };
 
 export const login = async () => {
-  const res = await fetch(`${serverUrl}/auth/url`, {
+  const res = await fetch(`/auth/url`, {
     method: "GET",
     credentials: "include",
   });
@@ -23,7 +22,7 @@ export const login = async () => {
 };
 
 export const getToken = async () => {
-  const res = await fetch(`${serverUrl}/auth/token${window.location.search}`, {
+  const res = await fetch(`/auth/token${window.location.search}`, {
     method: "GET",
     credentials: "include",
   });
@@ -35,7 +34,7 @@ export const getToken = async () => {
 };
 
 export const checkLogin = async () => {
-  const res = await fetch(`${serverUrl}/auth/logged_in`, {
+  const res = await fetch(`/auth/logged_in`, {
     method: "GET",
     credentials: "include",
   });
