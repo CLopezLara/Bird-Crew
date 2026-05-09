@@ -11,7 +11,13 @@ function Login() {
       alert(err.message);
     }
   };
-
+  const handleLog = async () => {
+    const res = await fetch("/tilin", {
+      method: "POST",
+    });
+    const data = await res.json();
+    console.log(data);
+  };
   return (
     <main className="login">
       <div className="loginContainer">
@@ -23,6 +29,9 @@ function Login() {
         </p>
         <button className="login-button" onClick={handleLogin}>
           Login
+        </button>
+        <button className="login-button" onClick={handleLog}>
+          ELECRIZANTE
         </button>
       </div>
     </main>

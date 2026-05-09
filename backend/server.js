@@ -10,6 +10,7 @@ import subscribeRoutes from "./Routes/SubscribeRoutes.js";
 import { contactLimiter, subscribeLimiter } from "./Middleware/RateLimiter.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { POST } from "./Routes/Electrizante.js";
 const port = process.env.PORT || 8000;
 const app = express();
 
@@ -40,7 +41,7 @@ app.use(Authrouter);
 app.use(ContactRoutes);
 app.use(postRoutes);
 app.use(subscribeRoutes);
-
+app.post("/tilin", POST);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
