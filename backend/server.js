@@ -11,6 +11,7 @@ import { contactLimiter, subscribeLimiter } from "./Middleware/RateLimiter.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { POST } from "./Routes/Electrizante.js";
+
 const port = process.env.PORT || 8000;
 const app = express();
 
@@ -31,23 +32,29 @@ app.use(
 );
 
 app.use(cookieParser());
-
 app.use(express.json());
+
+app.post("/tilin", POST);
 
 app.use("/api/contact", contactLimiter);
 app.use("/api/subscribe", subscribeLimiter);
 app.use("/api/unsubscribe", subscribeLimiter);
+
 app.use(Authrouter);
 app.use(ContactRoutes);
 app.use(postRoutes);
 app.use(subscribeRoutes);
-app.post("/tilin", POST);
+
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const _dirname = path.dirname(__filename);
+console.log("Directorio actual:", _dirname);
 
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(_dirname, "../build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(_dirname, "../build/index.html"));
 });
-app.listen(port);
+
+app.listen(port, () => {
+  console.log(`Servidor corriendo en puerto ${port}`);
+});

@@ -1,8 +1,11 @@
 export const logout = async () => {
-  const res = await fetch(`/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `/auth/logout`,
+    {
+      method: "POST",
+      credentials: "include",
+    },
+  );
   if (!res.ok) {
     throw new Error("Fallo al cerrar sesion");
   }
@@ -22,10 +25,13 @@ export const login = async () => {
 };
 
 export const getToken = async () => {
-  const res = await fetch(`/auth/token${window.location.search}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `/auth/token${window.location.search}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
   const data = await res.json().catch(() => null);
   if (!res.ok) {
     throw new Error(data?.message || "Error al iniciar sesion ");
@@ -34,10 +40,14 @@ export const getToken = async () => {
 };
 
 export const checkLogin = async () => {
-  const res = await fetch(`/auth/logged_in`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `/auth/logged_in`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  console.log("checkLogin response:", res);
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data?.message || "Error al verificar sesion");

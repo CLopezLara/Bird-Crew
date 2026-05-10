@@ -12,7 +12,7 @@ function Login() {
     }
   };
   const handleLog = async () => {
-    const res = await fetch("/tilin", {
+    const res = await fetch(`/tilin`, {
       method: "POST",
     });
     const data = await res.json();
