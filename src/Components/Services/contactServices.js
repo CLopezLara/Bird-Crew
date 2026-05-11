@@ -1,5 +1,5 @@
 export const sendData = async (formData) => {
-  const res = await fetch(`/api/contact`, {
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/contact`, {
     headers: {
       "Content-Type": "application/json",
     },

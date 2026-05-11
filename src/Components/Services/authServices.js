@@ -1,18 +1,15 @@
 export const logout = async () => {
-  const res = await fetch(
-    `/auth/logout`,
-    {
-      method: "POST",
-      credentials: "include",
-    },
-  );
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
   if (!res.ok) {
     throw new Error("Fallo al cerrar sesion");
   }
 };
 
 export const login = async () => {
-  const res = await fetch(`/auth/url`, {
+  const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/url`, {
     method: "GET",
     credentials: "include",
   });
@@ -26,7 +23,7 @@ export const login = async () => {
 
 export const getToken = async () => {
   const res = await fetch(
-    `/auth/token${window.location.search}`,
+    `${process.env.REACT_APP_SERVER_URL}/auth/token${window.location.search}`,
     {
       method: "GET",
       credentials: "include",
@@ -41,7 +38,7 @@ export const getToken = async () => {
 
 export const checkLogin = async () => {
   const res = await fetch(
-    `/auth/logged_in`,
+    `${process.env.REACT_APP_SERVER_URL}/auth/logged_in`,
     {
       method: "GET",
       credentials: "include",
