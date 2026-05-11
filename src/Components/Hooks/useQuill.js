@@ -60,7 +60,7 @@ export function useQuill({ onChange }) {
       const delta = quill.current.getContents();
       onChange({ html, delta });
     });
-  }, []);
+  }, [onChange]);
 
   return { editor, quill };
 }
