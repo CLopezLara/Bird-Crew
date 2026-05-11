@@ -51,7 +51,7 @@ console.log("Directorio actual:", _dirname);
 
 app.use(express.static(path.join(_dirname, "../build")));
 
-app.get("/", (req, res) => {
+app.get("/{*splat}", (req, res) => {
   res.sendFile(path.join(_dirname, "../build/index.html"));
 });
 
