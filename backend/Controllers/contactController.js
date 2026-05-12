@@ -1,5 +1,7 @@
-import createTransporter from "../Config/emailConfig.js";
 import axios from "axios";
+import sgMail from "@sendgrid/mail";
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const SendContactEmail = async (req, res) => {
   try {
@@ -19,7 +21,6 @@ const SendContactEmail = async (req, res) => {
       return res.status(400).json({ message: " reCAPTCHA es requerido" });
     }
 
-  
     if (!process.env.RECAPTCHA_SECRET_KEY) {
       console.error("RECAPTCHA_SECRET_KEY no configurado");
       return res
@@ -44,67 +45,61 @@ const SendContactEmail = async (req, res) => {
         .json({ message: "❌ Verificación de reCAPTCHA fallida" });
     }
 
-    
-    let transporter;
-    try {
-      transporter = createTransporter();
-    } catch (Error) {
-      console.error("Error al crear transporter:", Error.message);
-      return res
-        .status(500)
-        .json({ message: "❌ Error de configuración del servidor de email" });
-    }
-
     const ownerMailOptions = {
-      from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
+      from: { email: process.env.EMAIL_USER, name: "Bird Crew" },
       subject: "Nuevo cliente de BirdCrew Website",
+      replyTo: email,
       html: `
-            <h1><strong>Datos de nuevo cliente</strong></h1>
-            <p><strong>Nombre:</strong> ${nombre}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Empresa:</strong> ${empresa}</p>
-            <p><strong>Teléfono:</strong> ${telefono}</p>
-            <p><strong>¿Cómo nos encontraste?:</strong> ${comoNosEncontraste}</p>
-            <p><strong>Gasto en Marketing Mensual:</strong> ${gastoMarketing}</p>
-            <p><strong>Sitio Web y Redes Sociales:</strong> ${sitioWebRedesSociales}</p>
-            <p><strong>Horario de Comunicación:</strong> ${horarioComunicacion}</p>
-        `,
+              <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+                <h1>Nuevo cliente potencial</h1>
+
+                <hr />
+
+                <p><strong>Nombre:</strong> ${nombre}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Empresa:</strong> ${empresa}</p>
+                <p><strong>Teléfono:</strong> ${telefono}</p>
+                <p><strong>¿Cómo nos encontraste?:</strong> ${comoNosEncontraste}</p>
+                <p><strong>Gasto en Marketing Mensual:</strong> ${gastoMarketing}</p>
+                <p><strong>Sitio Web y Redes Sociales:</strong> ${sitioWebRedesSociales}</p>
+                <p><strong>Horario de Comunicación:</strong> ${horarioComunicacion}</p>
+
+                <hr />
+
+                <p>Formulario enviado desde Bird Crew Website.</p>
+              </div>
+              `,
     };
 
     const clientMailOptions = {
-      from: process.env.EMAIL_USER,
       to: email,
+      from: { email: process.env.EMAIL_USER, name: "Bird Crew" },
+      replyTo: process.env.EMAIL_USER,
       subject: "Formulario de contacto recibido - Bird Crew",
       html: `
-            <h2>Hola ${nombre},</h2>
-            <p>Gracias por contactarnos. Hemos recibido tu información y nos pondremos en contacto contigo pronto.</p>
-            <p>Nuestro equipo revisará tu solicitud y te responderá en un plazo de 48 horas.</p>
-            <br>
-            <p>Saludos cordiales,<br><strong>El equipo de Bird Crew</strong></p>
+            <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+              <h2>Hola ${nombre},</h2>
+              <p>Gracias por contactarnos. Hemos recibido tu información y nos pondremos en contacto contigo pronto.</p>
+              <p>Nuestro equipo revisará tu solicitud y te responderá en un plazo de 48 horas.</p>
+              <br>
+              <p>Saludos cordiales,<br><strong>El equipo de Bird Crew</strong></p>
+            </div>
          `,
     };
 
+    (async () => {
+      try {
+        await sgMail.send(ownerMailOptions);
+        await sgMail.send(clientMailOptions);
+      } catch (error) {
+        console.error(error);
 
-    try {
-      await transporter.sendMail(ownerMailOptions);
-      console.log("Email enviado al propietario exitosamente");
-    } catch (Error) {
-      console.error("Error enviando email al propietario:", Error.message);
-      throw new Error(
-        `Error al enviar email al propietario: ${Error.message}`,
-      );
-    }
-
-    try {
-      await transporter.sendMail(clientMailOptions);
-      console.log("Email enviado al cliente exitosamente");
-    } catch (Error) {
-      console.error("Error enviando email al cliente:", Error.message);
-      throw new Error(
-        `Error al enviar email al cliente: ${Error.message}`,
-      );
-    }
+        if (error.response) {
+          console.error(error.response.body);
+        }
+      }
+    })();
 
     res.status(200).json({ message: "✅ Mensaje enviado exitosamente" });
   } catch (error) {

@@ -11,7 +11,7 @@ import { contactLimiter, subscribeLimiter } from "./Middleware/RateLimiter.js";
 
 const port = process.env.PORT || 8000;
 const app = express();
-
+app.set("trust proxy", 1);
 if (!config.clientUrl || !config.tokenSecret || !config.clientId) {
   console.error("Faltan variables de entorno");
   process.exit(1);
