@@ -52,8 +52,8 @@ export const getCookieOptions = (maxAge) => ({
 });
 
 export const getcsrfCookieOptions = () => ({
-  httpOnly: false,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
   maxAge: 15 * 60 * 1000,
 });

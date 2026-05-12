@@ -108,6 +108,7 @@ export const authToken = async (req, res) => {
         role: dbUser.role,
         subscribed: dbUser.subscribed,
       },
+      csrfToken,
     });
   } catch (err) {
     res.status(500).json({ message: "Fallo de autenticacion" });
@@ -119,15 +120,15 @@ export const loggedIn = async (req, res) => {
     const accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
 
-    const csrfToken = generateCSRFToken();
-
     if (accessToken) {
       try {
         const decoded = jwt.verify(accessToken, config.tokenSecret);
         const user = await getUserById(decoded.userId);
+        const csrfToken = req.cookies.csrfToken;
         return res.json({
           loggedIn: true,
           user,
+          csrfToken,
         });
       } catch (err) {
         console.warn("Token de acceso invalido o expirado");
@@ -149,6 +150,7 @@ export const loggedIn = async (req, res) => {
         );
 
         const newRefreshToken = generateRefreshToken();
+        const csrfToken = generateCSRFToken();
 
         await deleteRefreshToken(refreshToken);
 
@@ -179,6 +181,7 @@ export const loggedIn = async (req, res) => {
             role: tokenData.role,
             subscribed: tokenData.subscribed,
           },
+          csrfToken,
         });
       }
     }
@@ -242,6 +245,7 @@ export const refreshAccessToken = async (req, res) => {
         role: tokenData.role,
         subscribed: tokenData.subscribed,
       },
+      csrfToken,
     });
   } catch (err) {
     res.status(500).json({ message: "Error al obtener nuevo token" });

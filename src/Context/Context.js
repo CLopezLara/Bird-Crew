@@ -11,13 +11,10 @@ export const AuthContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await checkLogin();
-      console.log("checkLogin response:", res);
       const { loggedIn: logged_in, user } = res;
-      console.log(user);
       setLoggedIn(logged_in);
       setUser(user);
     } catch (err) {
-      console.error("wuichu:", err);
       alert(err.message);
     } finally {
       setLoading(false);

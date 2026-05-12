@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getCsrfToken } from "./readCsrfToken";
+import { getCsrfToken, setCsrfToken } from "./readCsrfToken";
+
 export const instance = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   withCredentials: true,
@@ -20,6 +21,7 @@ const processQueue = (error = null) => {
 };
 instance.interceptors.request.use((config) => {
   const csrfToken = getCsrfToken();
+
   if (csrfToken) {
     config.headers["X-CSRF-Token"] = csrfToken;
   }
@@ -50,7 +52,8 @@ instance.interceptors.response.use(
     originalRequest._retry = true;
     isRefreshing = true;
     try {
-      await instance.post("/auth/refresh");
+      const res = await instance.post("/auth/refresh");
+      setCsrfToken(res.data.csrfToken);
       processQueue();
       isRefreshing = false;
       return instance(originalRequest);

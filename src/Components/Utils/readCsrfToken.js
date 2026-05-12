@@ -1,6 +1,11 @@
-export const getCsrfToken = () => {
-  return document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("csrfToken="))
-    ?.split("=")[1];
+let csrfToken = null;
+
+export const setCsrfToken = (token) => {
+  csrfToken = token;
+};
+
+export const getCsrfToken = () => csrfToken;
+
+export const clearCsrfToken = () => {
+  csrfToken = null;
 };

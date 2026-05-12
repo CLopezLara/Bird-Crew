@@ -1,3 +1,5 @@
+import { clearCsrfToken, setCsrfToken } from "../Utils/readCsrfToken";
+
 export const logout = async () => {
   const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth/logout`, {
     method: "POST",
@@ -6,6 +8,7 @@ export const logout = async () => {
   if (!res.ok) {
     throw new Error("Fallo al cerrar sesion");
   }
+  clearCsrfToken();
 };
 
 export const login = async () => {
@@ -17,7 +20,8 @@ export const login = async () => {
   if (!res.ok) {
     throw new Error(data?.message || "Error al iniciar sesion ");
   }
-
+  const { csrfToken } = data;
+  setCsrfToken(csrfToken);
   return data;
 };
 
@@ -33,6 +37,8 @@ export const getToken = async () => {
   if (!res.ok) {
     throw new Error(data?.message || "Error al iniciar sesion ");
   }
+  const { csrfToken } = data;
+  setCsrfToken(csrfToken);
   return data;
 };
 
@@ -44,11 +50,12 @@ export const checkLogin = async () => {
       credentials: "include",
     },
   );
-  console.log("checkLogin response:", res);
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data?.message || "Error al verificar sesion");
   }
+  const { csrfToken } = data;
 
+  setCsrfToken(csrfToken);
   return data;
 };
