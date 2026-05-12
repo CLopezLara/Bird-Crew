@@ -1,5 +1,6 @@
 import createTransporter from "../Config/emailConfig.js";
 import axios from "axios";
+
 const SendContactEmail = async (req, res) => {
   try {
     const {
@@ -18,6 +19,14 @@ const SendContactEmail = async (req, res) => {
       return res.status(400).json({ message: " reCAPTCHA es requerido" });
     }
 
+  
+    if (!process.env.RECAPTCHA_SECRET_KEY) {
+      console.error("RECAPTCHA_SECRET_KEY no configurado");
+      return res
+        .status(500)
+        .json({ message: "❌ Error de configuración del servidor" });
+    }
+
     const recaptchaResponse = await axios.post(
       "https://www.google.com/recaptcha/api/siteverify",
       null,
@@ -34,7 +43,17 @@ const SendContactEmail = async (req, res) => {
         .status(400)
         .json({ message: "❌ Verificación de reCAPTCHA fallida" });
     }
-    const transporter = createTransporter();
+
+    
+    let transporter;
+    try {
+      transporter = createTransporter();
+    } catch (Error) {
+      console.error("Error al crear transporter:", Error.message);
+      return res
+        .status(500)
+        .json({ message: "❌ Error de configuración del servidor de email" });
+    }
 
     const ownerMailOptions = {
       from: process.env.EMAIL_USER,
@@ -65,11 +84,31 @@ const SendContactEmail = async (req, res) => {
             <p>Saludos cordiales,<br><strong>El equipo de Bird Crew</strong></p>
          `,
     };
-    await transporter.sendMail(ownerMailOptions);
-    await transporter.sendMail(clientMailOptions);
+
+
+    try {
+      await transporter.sendMail(ownerMailOptions);
+      console.log("Email enviado al propietario exitosamente");
+    } catch (Error) {
+      console.error("Error enviando email al propietario:", Error.message);
+      throw new Error(
+        `Error al enviar email al propietario: ${Error.message}`,
+      );
+    }
+
+    try {
+      await transporter.sendMail(clientMailOptions);
+      console.log("Email enviado al cliente exitosamente");
+    } catch (Error) {
+      console.error("Error enviando email al cliente:", Error.message);
+      throw new Error(
+        `Error al enviar email al cliente: ${Error.message}`,
+      );
+    }
 
     res.status(200).json({ message: "✅ Mensaje enviado exitosamente" });
-  } catch (e) {
+  } catch (error) {
+    console.error("Error en SendContactEmail:", error.message || error);
     res.status(500).json({ message: "❌ Error al enviar el mensaje" });
   }
 };
