@@ -19,6 +19,7 @@ Features
 - Google OAUTH2
 - PostgreSQL
 - SendGRID
+---
 **Hosting**
 - Front-end: Netlify
 - Back-end: Render 
