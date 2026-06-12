@@ -1,130 +1,125 @@
 .posts-section {
-    display: flex;
-    margin: 2rem 0;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    background-color: rgb(0, 0, 0);
-    padding: 1.5rem;
-    border: .2rem solid rgb(67, 22, 194);
-    border-radius: .4rem;
-    max-width: 100%;
+  display: flex;
+  margin: 2rem 0;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  background-color: rgb(0, 0, 0);
+  padding: 1.5rem;
+  border: 0.2rem solid rgb(67, 22, 194);
+  border-radius: 0.4rem;
+  max-width: 100%;
 }
 
-.posts{
-    color: white;
-    width: 100%;
-    height: auto;
-    display: flex;
-    gap: 4rem;
-    border-bottom: 1px solid rgb(255, 255, 255);
+.posts {
+  color: white;
+  width: 100%;
+  height: auto;
+  display: flex;
+  gap: 4rem;
+  border-bottom: 1px solid rgb(255, 255, 255);
 }
 .post-image-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .post-image {
-    width: 80%;
-    height:auto;
-}
-
-.post-image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: .4rem;
+  width: 100%;
+  height: auto;
+  border-radius: 0.4rem;
 }
 
 .post-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .post-title {
-    font-size: 1.2rem;
-    text-align: left;
+  font-size: 1.2rem;
+  text-align: left;
 }
-.post-content{
-    overflow: hidden;
-    line-height: 1.8rem;
-    border-bottom: .1rem  solid rgb(34, 47, 102);
-    padding-bottom: 1rem;
-    text-align: justify;
+.post-content {
+  overflow: hidden;
+  line-height: 1.8rem;
+  border-bottom: 0.1rem solid rgb(34, 47, 102);
+  padding-bottom: 1rem;
+  text-align: justify;
 }
-.post-footer{
-    display:flex;
-    justify-content: space-between;
-    margin: .5rem 0;
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
 }
-.read-more-button{
-    color: rgb(255, 255, 255);
-    background-color: rgba(30, 81, 192, 0.616);
-    border-radius: 1rem;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    text-align: center;
-    padding: 0.7rem 1rem;
-    width: 9rem;
-    transition: all 0.3s ease;
-    max-width: 100%;
+.read-more-button {
+  color: rgb(255, 255, 255);
+  background-color: rgba(30, 81, 192, 0.616);
+  border-radius: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  width: 9rem;
+  transition: all 0.3s ease;
+  max-width: 100%;
 }
 .read-more-button:hover {
-    background-color: rgb(166, 216, 27);
-    color: rgb(0, 0, 0);
-    box-shadow: 0 0 .8rem 0.1rem rgba(166, 216, 27, 0.5);
-    transform: scale(1.02);
+  background-color: rgb(166, 216, 27);
+  color: rgb(0, 0, 0);
+  box-shadow: 0 0 0.8rem 0.1rem rgba(166, 216, 27, 0.5);
+  transform: scale(1.02);
 }
 .author {
-    font-size: .9rem;
-    color: rgb(255, 255, 255);
+  font-size: 0.9rem;
+  color: rgb(255, 255, 255);
+  margin-left: 1rem;
 }
 .admin-options {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
 }
-.edit-post-button, .delete-post-button {
-    background-color: rgba(30, 81, 192, 0.616);
-    color: rgb(255, 255, 255);
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    margin: .5rem 0;
+.edit-post-button,
+.delete-post-button {
+  background-color: rgba(30, 81, 192, 0.616);
+  color: rgb(255, 255, 255);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  margin: 0.5rem 0;
 }
 .edit-post-button:hover {
-    background-color: rgb(228, 224, 28);
-    color: black;
+  background-color: rgb(228, 224, 28);
+  color: black;
 }
 .delete-post-button:hover {
-    background-color: rgb(255, 0, 0);
-    color: white;
+  background-color: rgb(255, 0, 0);
+  color: white;
 }
 @media (max-width: 1300px) {
-    .post-footer {
-        flex-direction: column;
-        align-items: center;
-    }
+  .post-footer {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 @media (max-width: 800px) {
-    .posts-section {
-        width: 70%;
-    }
-    .posts {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-    .post-title {
-        text-align: center;
-    }
+  .posts-section {
+    width: 70%;
+  }
+  .posts {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .post-title {
+    text-align: center;
+  }
 }
